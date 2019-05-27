@@ -1,0 +1,26 @@
+<div class="container" 
+  style="padding-top: 90px;">
+
+  <nav *ngIf="isLoggedIn()"  aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+              <a routerLink="/home">
+                Home
+              </a>
+            </li>
+        <li class="breadcrumb-item">
+          <a routerLink="{{ dashboardUrls[0] }}">
+            Dashboard
+          </a>
+        </li>
+      </ol>
+    </nav>
+
+  <section class="jumbotron text-center my-4">
+    <div class="container">
+      <h3 class="jumbotron-heading">
+       This is about page
+      </h3>
+    </div>
+  </section>
+</div>

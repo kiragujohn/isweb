@@ -1,0 +1,27 @@
+table {
+  width: 98%;
+  margin: 10px auto;
+}
+
+.searchSeller {
+  width: 20%;
+  padding-left: 15px;
+}
+
+.example-container {
+  height: 400px;
+  overflow: auto;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.searchSeller {
+  width: 90%;
+}
+

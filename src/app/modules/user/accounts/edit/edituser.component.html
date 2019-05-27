@@ -1,0 +1,294 @@
+
+
+<div class="container" style="padding-top: 90px;">
+  <section class="jumbotron text-center my-4">
+    <div class="container">
+      <h3 class="jumbotron-heading">
+        View\Edit Person Details
+      </h3>
+    </div>
+  </section>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/home">
+          Home
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/admin/dashboard">
+          Dashboard
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        Person Details
+      </li>
+    </ol>
+  </nav>
+  <div #top></div>
+    <form #editSeller="ngForm" 
+        (ngSubmit)="onSubmit(editSeller)" 
+        enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-8 col-lg-12 mx-auto">
+          <div class='alert alert-success' *ngIf="saved; else" translate>
+            Saved successfully
+          </div>
+          <div class='alert alert-danger-custom' 
+            *ngIf="emailExistsAlready">
+           This email exists already
+          </div>
+          <div>
+            <tabset>
+              <tab heading="Accounts" 
+                  id="accounts">
+                <br/>
+                   Table of accounts
+              </tab>
+
+              <tab heading="Peronal Details" id="personal">
+              <br/>
+                    <div class="form-group">
+                      <label for="firstName" translate>
+                        First Name
+                      </label>
+                      <input type="text" 
+                            id="firstName" 
+                            class="form-control" 
+                            name="firstName" 
+                            [ngModel]="adminEditUserInitialData?.user?.firstName" 
+                            #firstName="ngModel" 
+                            [ngClass]="{ 'is-invalid': firstName.touched && firstName.value === '' }"
+                            placeholder="Type first name" 
+                            required>
+                      <span class="help-block" 
+                          *ngIf="!firstName.valid && firstName.touched" translate>
+                         Enter First name
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="lastName" translate>
+                          Last name
+                      </label>
+                      <input type="text" 
+                            id="lastName" 
+                            class="form-control" 
+                            name="lastName" 
+                            [ngModel]="adminEditSellerInitialData?.user?.lastName" 
+                            #lastName="ngModel" 
+                            [ngClass]="{ 'is-invalid': lastName.touched && lastName.value === '' }"
+                            placeholder="Last name" 
+                            required>
+                      <span class="help-block" 
+                          *ngIf="!lastName.valid && lastName.touched" translate>
+                          Please enter last name
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="email" translate>
+                        Email
+                      </label>
+                      <input type="text" 
+                            pattern="^[\w\-+&amp;*]+(?:\.[\w\-+&amp;*]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$" 
+                            id="email" 
+                            class="form-control"
+                            name="email" 
+                            [ngModel]="adminEditSellerInitialData?.seller?.member?.user?.email" 
+                            #email="ngModel" 
+                            [ngClass]="{ 'is-invalid': email.touched && email.value === '' }" 
+                            placeholder="Type email"
+                        required>
+                      <span class="help-block" 
+                          *ngIf="!email.valid && email.touched" translate>
+                          Please enter email
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="phone" translate>
+                          Phone
+                      </label>
+                      <input type="text" 
+                            id="phone" 
+                            class="form-control"
+                            name="phone" 
+                            [ngModel]="adminEditSellerInitialData?.user?.phone" 
+                            #phone="ngModel" 
+                            [ngClass]="{ 'is-invalid': phone.touched && phone.value === '' }"
+                            placeholder="Type phone" required>
+                      <span class="help-block" *ngIf="!phone.valid && phone.touched" translate>
+                          Please enter phone
+                      </span>
+                    </div>
+                    <div class='alert alert-info' translate>
+                      Leave blank if you do not want to change password
+                    </div>
+                    <div class="form-group">
+                      <label for="password" translate>
+                        Password
+                      </label>
+                      <input type="password" 
+                            id="password" 
+                            class="form-control" 
+                            ngModel 
+                            name="password" 
+                            reverse="true" 
+                            appValidateEqual="passwordAgain"
+                            #password="ngModel" 
+                            [ngClass]="{ 'is-invalid': password.touched && password.value === '' }" 
+                            placeholder="Type password">
+                      <span class="help-block" *ngIf="!password.valid && password.touched" translate>
+                        Please enter a password
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="passwordAgain" translate>
+                        Password again
+                      </label>
+                      <input type="password" 
+                            id="passwordAgain" 
+                            class="form-control" 
+                            ngModel 
+                            name="passwordAgain" 
+                            reverse="false" 
+                            appValidateEqual="password"
+                            #passwordAgain="ngModel" 
+                            [ngClass]="{ 'is-invalid': passwordAgain.touched && passwordAgain.value === '' }"
+                            placeholder="Type password again">
+                      <span *ngIf="!passwordAgain.valid && passwordAgain.dirty" 
+                          class="help-block" translate>
+                          Password mismatch!
+                      </span>
+                    </div>
+              </tab>
+
+              <tab heading="Address" id="address">
+                <br/>
+                      <div *ngFor="let address of adminEditSellerInitialData?.user?.addressess">
+                    <div class="form-group">
+                      <label for="firstLine" translate>
+                        First line
+                      </label>
+                      <input type="text" 
+                            id="firstLine" 
+                            class="form-control" 
+                            name="firstLine" 
+                            [ngModel]="address?.firstLine"
+                            #firstLine="ngModel" 
+                            placeholder="Type first line address"
+                            required>
+                      <span class="help-block" 
+                           *ngIf="!firstLine.valid && firstLine.touched" translate>
+                       Please enter first line address
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="secondLine" translate>
+                        Second line address
+                      </label>
+                      <input type="text" 
+                            id="secondLine" 
+                            class="form-control" 
+                            name="secondLine" 
+                            [ngModel]="address?.secondLine"
+                            #secondLine="ngModel" 
+                            placeholder="Type second line address optional">
+                    </div>
+                    <div class="form-group">
+                      <label for="thirdLine" translate>
+                        Third line address
+                      </label>
+                      <input type="text" 
+                            id="thirdLine" 
+                            class="form-control" 
+                            name="thirdLine" 
+                            [ngModel]="address?.thirdLine"
+                            #thirdLine="ngModel" 
+                            placeholder="Type optional third line address">
+                    </div>
+                    <div class="form-group">
+                      <label for="fourthLine" translate>
+                        Fourth line address
+                      </label>
+                      <input type="text" 
+                            id="fourthLine" 
+                            class="form-control" 
+                            name="fourthLine" 
+                            [ngModel]="address?.fourthLine"
+                            #fourthline="ngModel" 
+                            placeholder="Type optional fourth line address">
+                    </div>
+                    <div class="form-group">
+                      <label for="townOrCity" translate>
+                        Town or city
+                      </label>
+                      <input type="text" 
+                            id="townOrCity" 
+                            class="form-control" 
+                            name="townOrCity" 
+                            [ngModel]="address?.townOrCity"
+                            #townOrCity="ngModel" 
+                            placeholder="Type town or city"
+                        required>
+                      <span class="help-block"
+                           *ngIf="!townOrCity.valid && townOrCity.touched" translate>
+                        Please enter town or city
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <label for="postCode" translate>
+                        Post code
+                      </label>
+                      <input type="text" 
+                            id="postCode" 
+                            name="postCode" 
+                            [ngModel]="address?.postCode"
+                            class="form-control" 
+                            placeholder="Type post code optional"
+                            name="postCode">
+                    </div>
+                    <div class="form-group">
+                      <label for="addressTypeId" translate>
+                        Address type
+                      </label>
+                      <select class="form-control" 
+                            [(ngModel)]="address.addressTypeId"
+                            name="addressTypeId" 
+                            id="addressTypeId">
+                        <option *ngFor="let addressType of addressTypes" 
+                              [ngValue]="addressType.id">{{ addressType.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="countryId" translate>
+                        Country
+                      </label>
+                      <select class="form-control" 
+                            [(ngModel)]="address.countryId"
+                            name="countryId" 
+                            id="countryId">
+                        <option *ngFor="let country of address.countries" 
+                              [ngValue]="country.id">{{ country.name }}
+                        </option>
+                      </select>
+                    </div>
+              </div>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="padding-top: 20px;">
+        <div class="col-md-8 col-lg-12 mx-auto">
+          <div class="form-group">
+            <button class="mat-raised-button mat-primary" 
+                  type="submit" 
+                  [disabled]="!editSeller.valid" 
+                  (click)="scroll(top)" translate>
+                  Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,189 @@
+<div class="container" style="padding-top: 90px;">
+
+  {{ adminEditMyAccountInitialData | json }}
+
+  <div #top></div>
+  <div class="row" style="padding-top: 20px;">
+    <div class="col-md-8 col-lg-12 mx-auto">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a routerLink="/admin/dashboard" translate>
+              Dashboard
+            </a>
+          </li>
+          <li class="breadcrumb-item active">
+            My account edit
+          </li>
+        </ol>
+      </nav>
+      <br />
+      <div class="alert alert-danger" *ngIf="emailAlreadyExists" translate>
+        The following email already exists in our system
+      </div>
+      <div class="alert alert-danger" *ngIf="invalidPasswordMatch" translate>
+        Sorry current password provided doesnt match the existing password
+      </div>
+      <div class="alert alert-success" *ngIf="saved" translate>
+        Details saved successfully
+      </div>
+      <div class="alert alert-danger" *ngIf="notSaved" translate>
+        Details not saved successfully
+      </div>
+      <div class="card">
+        <div class="card-header">
+          Edit my account
+        </div>
+        <div class="card-body">
+          <tabset>
+            <tab heading="Personal details" id="personalDetais">
+              <br />
+              <form #editMyAccountPersonalDetails="ngForm"
+                (ngSubmit)="onSubmitPersonalDetails(editMyAccountPersonalDetails)">
+                <div class="form-group">
+                  <label for="firstName" translate>
+                    First name
+                  </label>
+                  <input type="text" id="firstName" class="form-control"
+                    [ngModel]="adminEditMyAccountInitialData?.user?.firstName" name="firstName"
+                    placeholder="Type first name" required #firstName="ngModel">
+                  <span class="help-block" *ngIf="!firstName.valid && firstName.touched" translate>
+                    Please enter first name
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="lastName" translate>Last name
+                  </label>
+                  <input type="text" id="lastName" class="form-control"
+                    [ngModel]="adminEditMyAccountInitialData?.user?.lastName" name="lastName"
+                    placeholder="Type last name" required #lastName="ngModel">
+                  <span class="help-block" *ngIf="!lastName.valid && lastName.touched" translate>
+                    Please enter last name
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="mobile" translate>
+                    Mobile
+                  </label>
+                  <input type="text" id="mobile" class="form-control"
+                    [ngModel]="adminEditMyAccountInitialData?.user?.mobile" name="mobile" required
+                    placeholder="Type mobile" #mobile="ngModel">
+                  <span class="help-block" *ngIf="!mobile.valid && mobile.touched" translate>
+                    Please enter mobile
+                  </span>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div style="padding-top: 20px;">
+                        <button class="btn btn-primary" type="submit" [disabled]="!editMyAccountPersonalDetails.valid"
+                          translate>
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </tab>
+            <tab heading="Email and password" id="emailAndPassword">
+              <br />
+              <form #editMyAccountEmailAndPassword="ngForm"
+                (ngSubmit)="onSubmitEmailAndPassword(editMyAccountEmailAndPassword)">
+
+                <div class="card">
+                  <div class="form-group">
+                    <div class="card-header">
+                      <label for="email" translate>Email
+                      </label>
+                    </div>
+                    <div class="card-body">
+                      <input type="text" id="email" class="form-control"
+                        [ngModel]="adminEditMyAccountInitialData?.user?.email" name="email" required
+                        pattern="^[\w\-+&amp;*]+(?:\.[\w\-+&amp;*]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$"
+                        placeholder="Type email" #email="ngModel">
+                      <span class="help-block" *ngIf="!email.valid && email.touched" translate>
+                        Please enter a valid email
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="card">
+                  <div class="form-group">
+                    <div class="card-header">
+                      <label translate>
+                        Current password
+                      </label>
+                    </div>
+                    <div class="card-body">
+                      <div class="alert alert-info" translate>
+                        Current password is required before updating your email or password
+                      </div>
+                      <label for="currentPassword" translate>
+                        Current password
+                      </label>
+                      <input type="password" id="currentPassword" class="form-control" ngModel required
+                        name="currentPassword" placeholder="Type current password" #currentPassword="ngModel">
+                      <span *ngIf="!currentPassword.valid && currentPassword.touched" class="help-block" translate>
+                        Please enter current password
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="card">
+                  <div class="form-group">
+                    <div class="card-header">
+                      <label for="email" translate>
+                        New password
+                      </label>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <div class="alert alert-info" translate>
+                          Leave blank if you do not want to change password
+                        </div>
+                        <label for="password" translate>
+                          New password
+                        </label>
+                        <input type="password" id="password" class="form-control" ngModel name="password"
+                          placeholder="Type new password" reverse="true" appValidateEqual="passwordAgain"
+                          #password="ngModel">
+                      </div>
+                      <div class="form-group">
+                        <label for="passwordagain" translate>
+                          New password again
+                        </label>
+                        <input type="password" id="passwordAgain" class="form-control" ngModel name="passwordAgain"
+                          placeholder="Type new password again" reverse="false" appValidateEqual="password"
+                          #passwordAgain="ngModel">
+                        <span
+                          [hidden]="passwordAgain.valid || (passwordAgain.pristine && !editMyAccountEmailAndPassword.submitted)"
+                          class="help-block" translate>
+                          Password mismatch
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <div style="padding-top: 10px;">
+                        <button class="btn btn-primary" type="submit" [disabled]="!editMyAccountEmailAndPassword.valid"
+                          translate>
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,140 @@
+<div class="container" style="padding-top: 90px;">
+  <section class="jumbotron text-center my-4">
+    <div class="container">
+      <h3 class="jumbotron-heading">
+        Select Account
+      </h3>
+    </div>
+  </section>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/home">
+          Home
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/user/dashboard">
+          Dashboard
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        Account List
+      </li>
+    </ol>
+  </nav>
+  
+  <div class="row">
+   <div class="col-md-12 col-lg-12 mx-auto">
+      <div class='alert alert-danger-custom'
+          *ngIf="canNotDelete" 
+          translate>
+          Delete User
+      </div>
+      <div class="card">
+        <div class="card-header">
+              Select a Person
+        </div>
+     
+        <div class="card-body">
+          <div class="table-responsive" 
+              *ngIf="(users?.length > 0)">
+            <mat-form-field class="searchUser">
+              <input matInput
+              (keyup)="applyFilter($event.target.value)" 
+              placeholder="search by name or status">
+            </mat-form-field>
+            <table mat-table
+                [dataSource]="dataSource"
+                matSort 
+                class="mat-elevation-z8">
+
+         
+              <ng-container matColumnDef="name">
+                <th mat-header-cell 
+                    *matHeaderCellDef 
+                    mat-sort-header>
+                  Name
+                  </th>
+                <td mat-cell 
+                    *matCellDef="let user">
+                    {{user.name}}
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell
+                    *matHeaderCellDef 
+                    mat-sort-header>
+                    Status
+                  </th>
+                <td mat-cell 
+                    *matCellDef="let user"> 
+                    {{user.status}} 
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="edit">
+                <th mat-header-cell 
+                    *matHeaderCellDef> 
+                    View\Edit
+                </th>
+                <td mat-cell 
+                    *matCellDef="let user"> 
+                    <a class="mat-raised-button mat-primary" 
+                    routerLink="/admin/user/edit/{{ user.id }}"
+                    translate>
+                    View\Edit
+                  </a> 
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell 
+                    *matHeaderCellDef> 
+                    Delete
+                  </th>
+                <td mat-cell 
+                    *matCellDef="let user"> 
+                    <a class="mat-raised-button mat-primary" 
+                    type="button" 
+                    (click)="deleteConfirmation( template, user.id )"
+                    translate>
+                    Delete
+                  </a> 
+                </td>
+              </ng-container>
+
+              <tr mat-header-row 
+                  *matHeaderRowDef="displayedColumns; sticky: true">
+                </tr>
+              <tr mat-row 
+                  *matRowDef="let row; columns: displayedColumns;">
+                </tr>
+            </table>
+          </div>
+          <div class="alert alert-info text-center" 
+              *ngIf="(users?.length < 1)" 
+              translate>
+              There are no persons configured yet
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #template>
+    <div class="modal-content">
+        <div class="modal-header"><b translate>Delete</b></div>
+        <div class="modal-body text-left" translate>
+          Are you sure you want to delete
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" translate="" type="button" ng-reflect-translate="" (click)="confirm()">Yes </button>
+          <button class="mat-raised-button mat-primary" translate="" type="button" ng-reflect-translate="" (click)="decline()"  > No</button>
+        </div>
+      </div>
+ </ng-template> 
+
+  
+

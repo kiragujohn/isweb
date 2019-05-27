@@ -1,0 +1,186 @@
+<div class="container" style="padding-top: 90px;">
+  <section class="jumbotron text-center my-4">
+    <div class="container">
+      <h3 class="jumbotron-heading">
+        View\Edit Person Details
+      </h3>
+    </div>
+  </section>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/home">
+          Home
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        <a routerLink="/admin/dashboard">
+          Dashboard
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        Person Details
+      </li>
+    </ol>
+  </nav>
+  <div #top></div>
+  <form #editUser="ngForm" (ngSubmit)="onSubmit(editUser)" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col-md-8 col-lg-12 mx-auto">
+        <div class='alert alert-success' *ngIf="saved; else" translate>
+          Saved successfully
+        </div>
+        <div class='alert alert-danger-custom' *ngIf="emailExistsAlready">
+          This email exists already
+        </div>
+        <div>
+          <tabset>
+            <tab heading="Accounts" id="accounts">
+              <br>
+              <div class="table-responsive">
+                <table *ngIf="adminEditUserInitialData?.user?.accounts.length > 0"
+                  class="table table-bordered table-light">
+                  <thead>
+                    <tr>
+                      <th>Account Number</th>
+                      <th>Account Type</th>
+                      <th>Active</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let account of adminEditUserInitialData?.user?.accounts">
+                      <td>{{ account?.accountNumber }}</td>
+                      <td>{{ account?.accountType }}</td>
+                      <td>{{ account?.active }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tab>
+
+            <tab heading="Peronal Details" id="personal">
+              <br />
+              <div class="form-group">
+                <label for="firstName" translate>
+                  First Name
+                </label>
+                <input type="text" id="firstName" class="form-control" name="firstName"
+                  [ngModel]="adminEditUserInitialData?.user?.firstName" #firstName="ngModel"
+                  [ngClass]="{ 'is-invalid': firstName.touched && firstName.value === '' }"
+                  placeholder="Type first name" required>
+                <span class="help-block" *ngIf="!firstName.valid && firstName.touched" translate>
+                  Enter First name
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="lastName" translate>
+                  Last name
+                </label>
+                <input type="text" id="lastName" class="form-control" name="lastName"
+                  [ngModel]="adminEditUserInitialData?.user?.lastName" #lastName="ngModel"
+                  [ngClass]="{ 'is-invalid': lastName.touched && lastName.value === '' }" placeholder="Last name"
+                  required>
+                <span class="help-block" *ngIf="!lastName.valid && lastName.touched" translate>
+                  Please enter last name
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="email" translate>
+                  Email
+                </label>
+                <input type="text" pattern="^[\w\-+&amp;*]+(?:\.[\w\-+&amp;*]+)*@(?:[\w-]+\.)+[a-zA-Z]{2,7}$" id="email"
+                  class="form-control" name="email" [ngModel]="adminEditUserInitialData?.user?.email" #email="ngModel"
+                  [ngClass]="{ 'is-invalid': email.touched && email.value === '' }" placeholder="Type email" required>
+                <span class="help-block" *ngIf="!email.valid && email.touched" translate>
+                  Please enter email
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="phone" translate>
+                  Phone
+                </label>
+                <input type="text" id="phone" class="form-control" name="phone"
+                  [ngModel]="adminEditUserInitialData?.user?.phone" #phone="ngModel"
+                  [ngClass]="{ 'is-invalid': phone.touched && phone.value === '' }" placeholder="Type phone" required>
+                <span class="help-block" *ngIf="!phone.valid && phone.touched" translate>
+                  Please enter phone
+                </span>
+              </div>
+              <div class='alert alert-info' translate>
+                Leave blank if you do not want to change password
+              </div>
+              <div class="form-group">
+                <label for="password" translate>
+                  Password
+                </label>
+                <input type="password" id="password" class="form-control" ngModel name="password" reverse="true"
+                  appValidateEqual="passwordAgain" #password="ngModel"
+                  [ngClass]="{ 'is-invalid': password.touched && password.value === '' }" placeholder="Type password">
+                <span class="help-block" *ngIf="!password.valid && password.touched" translate>
+                  Please enter a password
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="passwordAgain" translate>
+                  Password again
+                </label>
+                <input type="password" id="passwordAgain" class="form-control" ngModel name="passwordAgain"
+                  reverse="false" appValidateEqual="password" #passwordAgain="ngModel"
+                  [ngClass]="{ 'is-invalid': passwordAgain.touched && passwordAgain.value === '' }"
+                  placeholder="Type password again">
+                <span *ngIf="!passwordAgain.valid && passwordAgain.dirty" class="help-block" translate>
+                  Password mismatch!
+                </span>
+              </div>
+            </tab>
+
+            <tab heading="Address" id="address">
+              <br />
+
+              <div class="table-responsive">
+                  <table *ngIf="adminEditUserInitialData?.user?.addresses.length > 0"
+                    class="table table-bordered table-light">
+                    <thead>
+                      <tr>
+                        <th>First Line address</th>
+                        <th>Second Line address</th>
+                        <th>Third Line address</th>
+                        <th>Fourth Line address</th>
+                        <th>Town or City</th>
+                        <th>Postal Code</th>
+                        <th>Address Type</th>
+                        <th>Country</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let address of adminEditUserInitialData?.user?.addresses">
+                        <td>{{ address?.firstLine }}</td>
+                        <td>{{ address?.secondLine }}</td>
+                        <td>{{ address?.thirdLine }}</td>
+                        <td>{{ address?.fourthLine }}</td>
+                        <td>{{ address?.townOrCity }}</td>
+                        <td>{{ address?.postCode }}</td>
+                        <td>{{ address?.addressType }}</td>
+                        <td>{{ address?.country }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-8 col-lg-12 mx-auto">
+        <div class="form-group">
+          <button class="mat-raised-button mat-primary" type="submit" [disabled]="!editUser.valid" (click)="scroll(top)"
+            translate>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

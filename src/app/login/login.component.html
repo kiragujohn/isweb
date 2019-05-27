@@ -1,0 +1,36 @@
+<div class="container" style="padding-top: 120px;">
+  <div class="row">
+    <div class="col-xs-4 col-md-6 col-12-lg mx-auto">
+      <div class="card">
+        <div class="card-header" translate>
+          Login
+        </div>
+        <div class="card-body">
+          <div *ngIf="error" class="alert alert-danger" translate>{{error}}</div>
+          <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+            <div class="form-group">
+              <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel"
+                required placeholder="Email" />
+              <div *ngIf="!username.valid && username.touched " class="help-block" translate>
+                Email required
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" name="password" [(ngModel)]="model.password"
+                #password="ngModel" required placeholder="Password" />
+              <div *ngIf="!password.valid && password.touched " class="help-block" translate>
+                Password required
+              </div>
+            </div>
+            <div class="form-group">
+              <button [disabled]="loading" name="buttonSignIn" id="buttonSignIn" class="btn btn-primary float-left"
+                translate>
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

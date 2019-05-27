@@ -1,0 +1,82 @@
+<div class="container" style="padding-top: 90px;">
+  <section class="jumbotron text-center my-4">
+    <div class="container">
+      <h3 class="jumbotron-heading">
+        My Dashboard
+      </h3>
+    </div>
+  </section>
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/home">
+          Home
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        Dashboard
+      </li>
+    </ol>
+  </nav>
+
+  <div class="row align-items-start row-grid">
+    <div class="col-md-4 col-lg-6 p-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-pencil-square-o fa-2x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge"></div>
+              <div style="padding-left: 5px;" translate>
+                My Details
+              </div>
+            </div>
+          </div>
+        </div>
+        <a routerLink="/user/myaccount/edit">
+          <div class="card-footer">
+            <span class="pull-left" translate>
+              Edit my Details
+            </span>
+            <span class="pull-right">
+              <i class="fa fa-arrow-circle-right"></i>
+            </span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-lg-6 p-3">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-credit-card fa-2x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge"></div>
+              <div style="padding-left: 5px;" translate>
+                My Accounts
+              </div>
+            </div>
+          </div>
+        </div>
+        <a routerLink="/user/accounts">
+          <div class="card-footer">
+            <span class="pull-left" translate>
+              Accounts List
+            </span>
+            <span class="pull-right">
+              <i class="fa fa-arrow-circle-right"></i>
+            </span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

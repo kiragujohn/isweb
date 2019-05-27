@@ -1,0 +1,33 @@
+<nav class="navbar fixed-top navbar-expand-sm navbar-light" style="background-color: #e3f2fd; opacity: 0.99;">
+  <button class="navbar-toggler" (click)="collapse=!collapse" type="button" aria-expanded="false"
+    aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="navbar-collapse" [hidden]="collapse">
+    <a href="">
+      <button type="button" class="btn btn-outline-primary mr-2">
+        Home
+      </button>
+    </a>
+    <a routerLink="/about">
+      <button type="button" class="btn btn-outline-primary mr-2">
+        About
+      </button>
+    </a>
+    <a routerLink="/contact">
+      <button type="button" class="btn btn-outline-primary mr-2">
+        Contacts
+      </button>
+    </a>
+  </div>
+  <a *ngIf="!isLoggedIn()" routerLink="/login">
+    <button type="button" class="btn btn-outline-primary mr-2">
+      Login
+    </button>
+  </a>
+  <a *ngIf="isLoggedIn()" href="#">
+      <button type="button" class="btn btn-outline-primary mr-2">
+        Logout({{ email }})
+      </button>
+    </a>
+</nav>
